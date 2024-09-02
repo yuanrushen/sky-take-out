@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         log.error("异常信息：{}", ex.getMessage());
         return Result.error(ex.getMessage());
     }
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler
     public Result exceptionHandler(SQLIntegrityConstraintViolationException ex){
         log.error("异常信息：{}", ex.getMessage());
         String message = ex.getMessage();
