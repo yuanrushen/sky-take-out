@@ -45,4 +45,16 @@
         </where>
         order by d.create_time desc
     </select>
+    <select id="list" resultType="com.sky.vo.DishVO">
+        select * from dish
+        <where>
+            <if test="categoryId != null">and category_id = #{categoryId}</if>
+            <if test="name != null">and name like concat('%',#{name},'%')</if>
+            <if test="status != null">and status = #{status}</if>
+        </where> order by create_time desc
+    </select>
+    <select id="getBySetmealId" resultType="com.sky.entity.Dish">
+        select dish.* from dish left join setmeal_dish on dish.id = setmeal_dish.dish_id
+        where setmeal_dish.setmeal_id = #{setmealId}
+    </select>
 </mapper>
