@@ -11,4 +11,7 @@ sky:
     access-key-id: LTAI5t6S1vnm6oh5Pjmpkwnp
     access-key-secret: fVDd2c6VJyIxcYt5SvIIlj6U9q0OPx
     bucket-name: sky-take-out-rushen
-
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
