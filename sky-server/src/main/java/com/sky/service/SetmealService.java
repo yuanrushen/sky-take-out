@@ -4,7 +4,9 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Setmeal;
 import com.sky.result.PageResult;
+import com.sky.vo.DishItemVO;
 import com.sky.vo.DishVO;
 import com.sky.vo.SetmealVO;
 
@@ -23,4 +25,8 @@ public interface SetmealService {
     void update(SetmealDTO setmealDTO);
 
     void updateStatus(Integer status, Long id);
+
+    List<Setmeal> list(Setmeal setmeal);
+
+    List<DishItemVO> getDishItemById(Long id);
 }
