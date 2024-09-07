@@ -41,22 +41,59 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCart = shoppingCartList.get(0);
             shoppingCart.setNumber(shoppingCart.getNumber()+1);
             shoppingCartMapper.updateNumberByid(shoppingCart);
-        }
-        Long dishId = shoppingCartDTO.getDishId();
-        if(dishId!=null){
-            Dish dish = dishMapper.getById(dishId);
-            shoppingCart.setName(dish.getName());
-            shoppingCart.setImage(dish.getImage());
-            shoppingCart.setAmount(dish.getPrice());
         }else {
-            Long setmealId = shoppingCartDTO.getSetmealId();
-            Setmeal setmeal = setmealMapper.getById(setmealId);
-            shoppingCart.setName(setmeal.getName());
-            shoppingCart.setImage(setmeal.getImage());
-            shoppingCart.setAmount(setmeal.getPrice());
+            Long dishId = shoppingCartDTO.getDishId();
+            if(dishId!=null){
+                Dish dish = dishMapper.getById(dishId);
+                shoppingCart.setName(dish.getName());
+                shoppingCart.setImage(dish.getImage());
+                shoppingCart.setAmount(dish.getPrice());
+            }else {
+                Long setmealId = shoppingCartDTO.getSetmealId();
+                Setmeal setmeal = setmealMapper.getById(setmealId);
+                shoppingCart.setName(setmeal.getName());
+                shoppingCart.setImage(setmeal.getImage());
+                shoppingCart.setAmount(setmeal.getPrice());
+            }
+            shoppingCart.setNumber(1);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+            shoppingCartMapper.insert(shoppingCart);
         }
-        shoppingCart.setNumber(1);
-        shoppingCart.setCreateTime(LocalDateTime.now());
-        shoppingCartMapper.insert(shoppingCart);
+
+    }
+
+    @Override
+    public List<ShoppingCart> showshoppingCart() {
+        Long userid = BaseContext.getCurrentId();
+        ShoppingCart shoppingCart = ShoppingCart.builder()
+                                                .userId(userid)
+                                                .build();
+        List<ShoppingCart> shoppingCarts = shoppingCartMapper.list(shoppingCart);
+        return shoppingCarts;
+    }
+
+    @Override
+    public void delete() {
+        setmealMapper.deleteshopping(BaseContext.getCurrentId());
+    }
+
+    @Override
+    public void subshoppingclean(ShoppingCartDTO shoppingCartDTO) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
+        Long userid = BaseContext.getCurrentId();
+        shoppingCart.setUserId(userid);
+
+        List<ShoppingCart> shoppingCarts = shoppingCartMapper.list(shoppingCart);
+        if(shoppingCarts!=null && shoppingCarts.size()>0){
+            ShoppingCart cart = shoppingCarts.get(0);
+            Integer number = cart.getNumber();
+            if(number==1){
+                shoppingCartMapper.delete(cart.getId());
+            }else {
+                cart.setNumber(cart.getNumber()-1);
+                shoppingCartMapper.updateNumberByid(cart);
+            }
+        }
     }
 }
