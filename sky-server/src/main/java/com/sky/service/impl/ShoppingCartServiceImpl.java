@@ -74,7 +74,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void delete() {
-        setmealMapper.deleteshopping(BaseContext.getCurrentId());
+        shoppingCartMapper.deleteshopping(BaseContext.getCurrentId());
     }
 
     @Override

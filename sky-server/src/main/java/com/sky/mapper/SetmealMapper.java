@@ -40,6 +40,4 @@ public interface SetmealMapper {
 
     List<Setmeal> list(Setmeal setmeal);
 
-    @Delete("delete from shopping_cart where user_id=#{userId}")
-    void deleteshopping(Long currentId);
 }
