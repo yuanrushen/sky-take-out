@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -35,4 +36,8 @@ public interface OrderMapper {
 
     @Select("select * from orders where status=#{status} and order_time<#{now}")
     List<Orders> getBystatusAndOrderTime(Integer status, LocalDateTime now);
+
+    @Select("select sum(amount) from orders where status=#{status} and DATE(order_time)=#{date} " +
+            "group by DATE(order_time)")
+    Double sumByMap(Map map);
 }
