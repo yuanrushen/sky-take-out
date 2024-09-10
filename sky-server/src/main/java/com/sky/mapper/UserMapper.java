@@ -21,4 +21,6 @@ public interface UserMapper {
     Integer getnewuser(Map map);
     @Select("select count(id) from user where DATE(create_time) < #{date} GROUP BY DATE(create_time)")
     Integer getolduser(Map map);
+
+    Integer countByMap(Map map);
 }

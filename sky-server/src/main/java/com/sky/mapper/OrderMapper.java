@@ -1,6 +1,7 @@
 package com.sky.mapper;
 
 import com.github.pagehelper.Page;
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
@@ -40,4 +41,14 @@ public interface OrderMapper {
     @Select("select sum(amount) from orders where status=#{status} and DATE(order_time)=#{date} " +
             "group by DATE(order_time)")
     Double sumByMap(Map map);
+
+    @Select("select count(id) from orders where DATE(order_time)=#{date} group by DATE(order_time)")
+    Integer getorder(Map map);
+
+    @Select("select count(id) from orders where DATE(order_time)=#{date} and status=#{status} group by DATE(order_time)")
+    Integer getvalidorder(Map map);
+
+    List<GoodsSalesDTO> getSalesTop10(LocalDateTime begin, LocalDateTime end);
+
+    Integer countByMap(Map map);
 }
